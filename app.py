@@ -76,10 +76,20 @@ def search_transactions():
         filtered_transactions = [x for x in transactions if (x['amount'] >= min_amount and x['amount'] <= max_amount)]
 
         # Redirect to the transactions list page after updating the transaction
-        return render_template('transactions.html', transaction = filtered_transactions)
+        return render_template('transactions.html', transactions = filtered_transactions)
 
     # If the request method is GET, render the search page
     return render_template('search.html')
+
+# Calculate total balance
+@app.route("/balance")
+def total_balance():
+    running_total = 0
+    for transaction in transactions:
+        running_total += transaction['amount']
+
+    # If the request method is GET, render the search page
+    return {'message': f'Total balance = {running_total}'}
 
 # Run the Flask app
 if __name__ == "__main__":
